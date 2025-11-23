@@ -1,19 +1,20 @@
 # PyMuPDF Plugin for Dify
 
-A powerful PDF text extraction plugin for Dify powered by PyMuPDF (aka fitz).
+A powerful PDF text and Markdown extraction plugin for Dify powered by PyMuPDF (aka fitz) and PyMuPDF4LLM.
 
 ![Demo Screenshot](./_assets/image.png)
 
 ## Overview
 
-PyMuPDF Plugin is a high-performance tool that allows you to extract, analyze, and manipulate text content from PDF documents directly within Dify applications. Built on the robust PyMuPDF library, this plugin provides accurate and efficient PDF text extraction capabilities.
+PyMuPDF Plugin is a high-performance tool that allows you to extract, analyze, and manipulate content from PDF documents directly within Dify applications. Built on the robust PyMuPDF library (and its PyMuPDF4LLM extension), this plugin provides accurate and efficient PDF text or Markdown extraction capabilities.
 
 ## Features
 
-- Extract complete text content from PDF files
+- Extract complete text content from PDF files (``to_text``)
+- Convert PDFs to Markdown with embedded image references (``to_markdown``)
 - Process single or multiple PDF documents simultaneously
 - Maintain page structure with clear page separations
-- Return both human-readable text and structured JSON data
+- Return both human-readable text/markdown and structured JSON data
 - Detailed metadata including page numbers and file information
 
 ## Installation
@@ -34,11 +35,11 @@ To install the PyMuPDF Plugin:
 
 Once installed, the plugin can be accessed through the Dify interface:
 
-1. Upload one or more PDF files using the file selector
-2. The plugin will process each file and return:
-   - Text content extracted from all pages
-   - Structured JSON data with page-by-page content and metadata
-   - Raw text content as a downloadable blob
+1. Upload one or more PDF files using the file selector.
+2. Choose the action:
+   - **to_text**: extract plain text with page breaks and per-page metadata.
+   - **to_markdown**: convert the PDF to Markdown (optionally per-page) with linked images bundled into a ZIP archive.
+3. The plugin will return human-readable output plus structured JSON and downloadable blobs for downstream processing.
 
 ## Example Response
 

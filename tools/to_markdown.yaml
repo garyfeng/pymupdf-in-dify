@@ -2,28 +2,41 @@ identity:
   name: to_markdown
   author: yevanchen
   label:
-    en_US: PDF to Markdown
-    zh_Hans: PDF转Markdown
-    pt_BR: PDF para Markdown
-  description:
-    en_US: Convert PDF pages to Markdown while exporting embedded images alongside the document.
-    zh_Hans: 将PDF页面转换为Markdown，并导出其中的图片。
-    pt_BR: Converta páginas de PDF para Markdown exportando as imagens incorporadas.
-
+    en_US: To Markdown
+    zh_Hans: 转为 Markdown
+    pt_BR: Para Markdown
+description:
+  human:
+    en_US: Convert PDFs to Markdown with embedded image links using PyMuPDF4LLM.
+    zh_Hans: 使用 PyMuPDF4LLM 将 PDF 转换为包含图片链接的 Markdown。
+    pt_BR: Converta PDFs em Markdown com links de imagens usando PyMuPDF4LLM.
+  llm: Convert PDF files into Markdown, extracting text and images with optional per-page pagination.
 parameters:
   - name: files
     type: files
-    required: true
+    required: false
     label:
       en_US: Files
       zh_Hans: 文件
       pt_BR: Arquivos
     human_description:
-      en_US: Upload PDF files to convert into Markdown with extracted images.
-      zh_Hans: 上传需要转换为 Markdown 的 PDF 文件，并提取其中的图片。
-      pt_BR: Envie arquivos PDF para converter em Markdown com imagens extraídas.
+      en_US: Upload PDF files for processing
+      zh_Hans: 上传 PDF 文件进行处理
+      pt_BR: Carregar arquivos PDF para processamento
     form: llm
-
+  - name: paginate
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: Paginate Output
+      zh_Hans: 按页输出
+      pt_BR: Paginar Saída
+    human_description:
+      en_US: Generate Markdown per page separated by page breaks.
+      zh_Hans: 按页生成 Markdown，并以分页符分隔。
+      pt_BR: Gerar Markdown por página separado por quebras de página.
+    form: form
 extra:
   python:
     source: tools/to_markdown.py

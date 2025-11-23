@@ -2,18 +2,19 @@ identity:
   author: yevanchen
   name: pymupdf
   label:
-    en_US: pymupdf
-    zh_Hans: pymupdf
-    pt_BR: pymupdf
+    en_US: PyMuPDF Tools
+    zh_Hans: PyMuPDF 工具
+    pt_BR: PyMuPDF Ferramentas
   description:
-    en_US: PyMuPDF is a high performance Python library for data extraction, analysis, conversion &amp; manipulation of PDF (and other) documents
-    zh_Hans: PyMuPDF is a high performance Python library for data extraction, analysis, conversion &amp; manipulation of PDF (and other) documents
-    pt_BR: PyMuPDF is a high performance Python library for data extraction, analysis, conversion &amp; manipulation of PDF (and other) documents
+    en_US: PyMuPDF tools to extract PDFs as plain text or Markdown with images and optional pagination.
+    zh_Hans: 使用 PyMuPDF 提取 PDF，输出纯文本或包含图片的 Markdown，并可按页分页。
+    pt_BR: Ferramentas PyMuPDF para extrair PDFs como texto simples ou Markdown com imagens e paginação opcional.
   icon: pymupdf.png
 
 
 tools:
   - tools/pymupdf.yaml
+  - tools/to_text.yaml
   - tools/to_markdown.yaml
 extra:
   python:
