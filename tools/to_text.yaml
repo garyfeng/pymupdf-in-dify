@@ -1,0 +1,29 @@
+identity:
+  name: to_text
+  author: yevanchen
+  label:
+    en_US: To Text
+    zh_Hans: 提取文本
+    pt_BR: Para Texto
+description:
+  human:
+    en_US: Extract text from PDF files using PyMuPDF with page-aware metadata.
+    zh_Hans: 使用 PyMuPDF 提取 PDF 文本，并包含页码等元数据。
+    pt_BR: Extraia texto de arquivos PDF com PyMuPDF e metadados de páginas.
+  llm: Extract all text from PDF files while preserving page order and metadata using PyMuPDF.
+parameters:
+  - name: files
+    type: files
+    required: false 
+    label:
+      en_US: Files
+      zh_Hans: 文件
+      pt_BR: Arquivos
+    human_description:
+      en_US: Upload PDF files for processing
+      zh_Hans: 上传PDF文件进行处理
+      pt_BR: Carregar arquivos PDF para processamento
+    form: llm
+extra:
+  python:
+    source: tools/to_text.py
