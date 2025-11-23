@@ -1,0 +1,29 @@
+identity:
+  name: to_markdown
+  author: yevanchen
+  label:
+    en_US: PDF to Markdown
+    zh_Hans: PDF转Markdown
+    pt_BR: PDF para Markdown
+  description:
+    en_US: Convert PDF pages to Markdown while exporting embedded images alongside the document.
+    zh_Hans: 将PDF页面转换为Markdown，并导出其中的图片。
+    pt_BR: Converta páginas de PDF para Markdown exportando as imagens incorporadas.
+
+parameters:
+  - name: files
+    type: files
+    required: true
+    label:
+      en_US: Files
+      zh_Hans: 文件
+      pt_BR: Arquivos
+    human_description:
+      en_US: Upload PDF files to convert into Markdown with extracted images.
+      zh_Hans: 上传需要转换为 Markdown 的 PDF 文件，并提取其中的图片。
+      pt_BR: Envie arquivos PDF para converter em Markdown com imagens extraídas.
+    form: llm
+
+extra:
+  python:
+    source: tools/to_markdown.py

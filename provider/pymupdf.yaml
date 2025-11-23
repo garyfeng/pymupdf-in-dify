@@ -14,6 +14,7 @@ identity:
 
 tools:
   - tools/pymupdf.yaml
+  - tools/to_markdown.yaml
 extra:
   python:
     source: provider/pymupdf.py
