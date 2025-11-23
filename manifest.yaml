@@ -1,17 +1,17 @@
-version: 0.0.1
+version: 0.1.0
 type: plugin
 author: yevanchen
 name: pymupdf
 label:
-  en_US: pymupdf
-  ja_JP: pymupdf
-  zh_Hans: pymupdf
-  pt_BR: pymupdf
+  en_US: PyMuPDF Tools
+  ja_JP: PyMuPDF Tools
+  zh_Hans: PyMuPDF 工具
+  pt_BR: PyMuPDF Ferramentas
 description:
-  en_US: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
-  ja_JP: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
-  zh_Hans: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
-  pt_BR: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
+  en_US: Extract PDF content with PyMuPDF, returning plain text or full Markdown (including images) with optional pagination.
+  ja_JP: PyMuPDF で PDF を処理し、テキストまたは画像付きの Markdown を必要に応じてページ分割して返します。
+  zh_Hans: 使用 PyMuPDF 提取 PDF 内容，输出纯文本或包含图片的 Markdown，并可按页分页。
+  pt_BR: Extraia conteúdo de PDF com PyMuPDF, retornando texto puro ou Markdown completo (incluindo imagens) com paginação opcional.
 icon: pymupdf.png
 resource:
   memory: 268435456
@@ -20,7 +20,7 @@ plugins:
   tools:
     - provider/pymupdf.yaml
 meta:
-  version: 0.0.1
+  version: 0.1.0
   arch:
     - amd64
     - arm64
