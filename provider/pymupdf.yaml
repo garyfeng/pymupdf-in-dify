@@ -13,6 +13,7 @@ identity:
 
 
 tools:
+  - tools/pymupdf.yaml
   - tools/to_text.yaml
   - tools/to_markdown.yaml
 extra:
