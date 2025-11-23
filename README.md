@@ -68,6 +68,11 @@ The plugin returns data in multiple formats:
    }
    ```
 3. **Blob Message**: Raw text content with MIME type specification
+4. **Files Output**: When **Save extracted images** is enabled, extracted page images are returned as downloadable file outputs.
+
+## Actions
+
+- **Convert PDF to Markdown** (`to_markdown`): Converts uploaded PDFs to Markdown, extracting both text and embedded images. Set **Save extracted images** to `true` to include the page images in the `files` output while keeping the generated Markdown in the text response.
 
 ## Privacy Policy
 
