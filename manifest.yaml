@@ -8,10 +8,10 @@ label:
   zh_Hans: pymupdf
   pt_BR: pymupdf
 description:
-  en_US: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
-  ja_JP: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
-  zh_Hans: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
-  pt_BR: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents
+  en_US: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents, now including Markdown conversion with extracted page images returned as files.
+  ja_JP: PyMuPDF is a high performance Python library for data extraction, analysis, conversion & manipulation of PDF (and other) documents, now including Markdown conversion with extracted page images returned as files.
+  zh_Hans: PyMuPDF 是一个高性能的 Python 库，用于 PDF（及其他）文档的数据提取、分析、转换和处理，现支持将 PDF 转换为 Markdown，并将页面图片提取为文件返回。
+  pt_BR: PyMuPDF é uma biblioteca Python de alto desempenho para extração, análise, conversão e manipulação de documentos PDF (e outros), agora incluindo conversão para Markdown com imagens extraídas das páginas retornadas como arquivos.
 icon: pymupdf.png
 resource:
   memory: 268435456

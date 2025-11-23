@@ -14,6 +14,7 @@ PyMuPDF Plugin is a high-performance tool that allows you to extract, analyze, a
 - Process single or multiple PDF documents simultaneously
 - Maintain page structure with clear page separations
 - Return both human-readable text and structured JSON data
+- Extract embedded page images and return them as downloadable files when enabled
 - Detailed metadata including page numbers and file information
 
 ## Installation
@@ -35,10 +36,12 @@ To install the PyMuPDF Plugin:
 Once installed, the plugin can be accessed through the Dify interface:
 
 1. Upload one or more PDF files using the file selector
-2. The plugin will process each file and return:
+2. (Optional) Enable **Save extracted images** if you want page images returned as downloadable files alongside the text/markdown output
+3. The plugin will process each file and return:
    - Text content extracted from all pages
    - Structured JSON data with page-by-page content and metadata
    - Raw text content as a downloadable blob
+   - Extracted images as file outputs when image saving is enabled
 
 ## Example Response
 
@@ -67,6 +70,11 @@ The plugin returns data in multiple formats:
    }
    ```
 3. **Blob Message**: Raw text content with MIME type specification
+4. **Files Output**: When **Save extracted images** is enabled, extracted page images are returned as downloadable file outputs.
+
+## Actions
+
+- **Convert PDF to Markdown** (`to_markdown`): Converts uploaded PDFs to Markdown, extracting both text and embedded images. Set **Save extracted images** to `true` to include the page images in the `files` output while keeping the generated Markdown in the text response.
 
 ## Privacy Policy
 

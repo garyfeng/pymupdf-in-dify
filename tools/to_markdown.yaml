@@ -1,0 +1,63 @@
+identity:
+  name: to_markdown
+  author: yevanchen
+  label:
+    en_US: Convert PDF to Markdown
+    zh_Hans: 将 PDF 转换为 Markdown
+    pt_BR: Converter PDF para Markdown
+description:
+  human:
+    en_US: Convert PDF documents to Markdown while extracting embedded images. Markdown content and captured page images are returned, with images delivered as downloadable file outputs.
+    zh_Hans: 将 PDF 转换为 Markdown 并提取内嵌图片，返回 Markdown 内容以及页面图片文件。
+    pt_BR: Converta PDFs em Markdown extraindo imagens incorporadas. Retorna o Markdown gerado e as imagens como arquivos para download.
+  llm: Convert PDFs to Markdown, extracting text and images so the Markdown and the page images can be returned as files.
+parameters:
+  - name: files
+    type: files
+    required: true
+    label:
+      en_US: Files
+      zh_Hans: 文件
+      pt_BR: Arquivos
+    human_description:
+      en_US: Upload one or more PDF files to convert into Markdown and extract images.
+      zh_Hans: 上传一个或多个 PDF 文件以转换为 Markdown 并提取图片。
+      pt_BR: Envie um ou mais arquivos PDF para converter em Markdown e extrair imagens.
+    form: llm
+  - name: save_images
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: Save extracted images
+      zh_Hans: 保存提取的图片
+      pt_BR: Salvar imagens extraídas
+    human_description:
+      en_US: Enable to extract images from each PDF page and return them as file outputs.
+      zh_Hans: 启用后将提取每个 PDF 页面的图片并作为文件输出返回。
+      pt_BR: Ative para extrair imagens de cada página do PDF e devolvê-las como arquivos.
+    form: form
+outputs:
+  - name: markdown
+    type: text
+    label:
+      en_US: Markdown content
+      zh_Hans: Markdown 内容
+      pt_BR: Conteúdo Markdown
+    human_description:
+      en_US: Generated Markdown text that preserves page order and references for extracted images.
+      zh_Hans: 生成的 Markdown 文本，保留页面顺序和提取图片的引用。
+      pt_BR: Texto Markdown gerado que mantém a ordem das páginas e referências para as imagens extraídas.
+  - name: files
+    type: files
+    label:
+      en_US: Extracted images
+      zh_Hans: 提取的图片
+      pt_BR: Imagens extraídas
+    human_description:
+      en_US: Image files saved from the PDF (returned only when Save extracted images is enabled).
+      zh_Hans: 从 PDF 保存的图片文件（仅在启用保存提取的图片时返回）。
+      pt_BR: Arquivos de imagem salvos do PDF (retornados apenas quando salvar imagens está ativado).
+extra:
+  python:
+    source: tools/pymupdf.py
