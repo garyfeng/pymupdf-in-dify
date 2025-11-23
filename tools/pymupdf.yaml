@@ -14,7 +14,7 @@ description:
 parameters:
   - name: files
     type: files
-    required: false 
+    required: false
     label:
       en_US: Files
       zh_Hans: 文件
@@ -23,6 +23,19 @@ parameters:
       en_US: Upload PDF files for processing
       zh_Hans: 上传PDF文件进行处理
       pt_BR: Carregar arquivos PDF para processamento
+    form: llm
+  - name: save_images
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: Save images
+      zh_Hans: 保存图像
+      pt_BR: Salvar imagens
+    human_description:
+      en_US: Extract and save embedded images to temporary files (disable to skip image extraction)
+      zh_Hans: 提取并保存嵌入的图像到临时文件（禁用以跳过图像提取）
+      pt_BR: Extrair e salvar imagens incorporadas em arquivos temporários (desative para pular a extração de imagens)
     form: llm
 extra:
   python:
