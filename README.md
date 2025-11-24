@@ -89,9 +89,10 @@ This plugin is licensed under the [AGPL-3.0 License](https://www.gnu.org/license
 
 ## Contact
 
-For questions, support, or feedback, please contact:
+For questions, support, or feedback, please:
 
-
+- Open an issue in this repository with details about your request or problem.
+- Email the plugin maintainer at yevanchen.dev@gmail.com for direct assistance.
 
 ## Credits
 
