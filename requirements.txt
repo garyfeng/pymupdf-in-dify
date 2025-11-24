@@ -1,3 +1,4 @@
 dify_plugin
 PyMuPDF
 PyMuPDF4LLM
+boto3

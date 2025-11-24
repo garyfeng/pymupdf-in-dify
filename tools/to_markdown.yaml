@@ -7,10 +7,10 @@ identity:
     pt_BR: Para Markdown
 description:
   human:
-    en_US: Convert PDFs to Markdown with embedded image links using PyMuPDF4LLM.
-    zh_Hans: 使用 PyMuPDF4LLM 将 PDF 转换为包含图片链接的 Markdown。
-    pt_BR: Converta PDFs em Markdown com links de imagens usando PyMuPDF4LLM.
-  llm: Convert PDF files into Markdown, extracting text and images with optional per-page pagination.
+    en_US: Convert PDFs to Markdown with images uploaded to S3 in unique per-file folders and shared via pre-signed URLs.
+    zh_Hans: 使用 PyMuPDF4LLM 将 PDF 转换为 Markdown，并将图片按文件放入唯一文件夹上传到 S3，通过预签名链接访问。
+    pt_BR: Converta PDFs em Markdown com imagens enviadas ao S3 em pastas exclusivas por arquivo e compartilhadas por URLs pré-assinadas.
+  llm: Convert PDF files into Markdown, extracting text and images with optional per-page pagination and uploading images to S3 with pre-signed URLs.
 parameters:
   - name: files
     type: files
@@ -36,6 +36,56 @@ parameters:
       en_US: Generate Markdown per page separated by page breaks.
       zh_Hans: 按页生成 Markdown，并以分页符分隔。
       pt_BR: Gerar Markdown por página separado por quebras de página.
+    form: form
+  - name: s3_bucket
+    type: string
+    required: true
+    label:
+      en_US: S3 Bucket
+      zh_Hans: S3 桶
+      pt_BR: Bucket S3
+    human_description:
+      en_US: Name of the S3 bucket where extracted images will be uploaded.
+      zh_Hans: 存储提取图片的 S3 存储桶名称。
+      pt_BR: Nome do bucket S3 onde as imagens extraídas serão enviadas.
+    form: form
+  - name: s3_prefix
+    type: string
+    required: false
+    default: pymupdf-extracts
+    label:
+      en_US: S3 Prefix
+      zh_Hans: S3 前缀
+      pt_BR: Prefixo S3
+    human_description:
+      en_US: Optional prefix for uploaded images inside the S3 bucket.
+      zh_Hans: S3 存储桶中上传图片的可选前缀。
+      pt_BR: Prefixo opcional para imagens enviadas no bucket S3.
+    form: form
+  - name: presigned_url_expiration
+    type: number
+    required: false
+    default: 3600
+    label:
+      en_US: Pre-signed URL Expiration (seconds)
+      zh_Hans: 预签名链接过期时间（秒）
+      pt_BR: Expiração da URL pré-assinada (segundos)
+    human_description:
+      en_US: Lifetime in seconds for the generated pre-signed URLs. Objects remain in S3 until removed.
+      zh_Hans: 预签名链接的有效时间（秒）。对象会留在 S3，直到被删除。
+      pt_BR: Tempo de vida em segundos para as URLs pré-assinadas. Os objetos permanecem no S3 até serem removidos.
+    form: form
+  - name: aws_region
+    type: string
+    required: false
+    label:
+      en_US: AWS Region
+      zh_Hans: AWS 区域
+      pt_BR: Região AWS
+    human_description:
+      en_US: Optional AWS region for the S3 bucket. Leave blank to use default.
+      zh_Hans: S3 存储桶的可选 AWS 区域。留空以使用默认值。
+      pt_BR: Região AWS opcional para o bucket S3. Deixe em branco para usar o padrão.
     form: form
 extra:
   python:

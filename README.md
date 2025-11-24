@@ -11,7 +11,7 @@ PyMuPDF Plugin is a high-performance tool that allows you to extract, analyze, a
 ## Features
 
 - Extract complete text content from PDF files (``to_text``)
-- Convert PDFs to Markdown with embedded image references (``to_markdown``)
+- Convert PDFs to Markdown with S3-hosted image references delivered via pre-signed URLs (``to_markdown``), isolating each PDF's images in unique per-file folders to avoid collisions
 - Process single or multiple PDF documents simultaneously
 - Maintain page structure with clear page separations
 - Return both human-readable text/markdown and structured JSON data
@@ -38,8 +38,8 @@ Once installed, the plugin can be accessed through the Dify interface:
 1. Upload one or more PDF files using the file selector.
 2. Choose the action:
    - **to_text**: extract plain text with page breaks and per-page metadata.
-   - **to_markdown**: convert the PDF to Markdown (optionally per-page) with linked images bundled into a ZIP archive.
-3. The plugin will return human-readable output plus structured JSON and downloadable blobs for downstream processing.
+   - **to_markdown**: convert the PDF to Markdown (optionally per-page) with linked images uploaded to S3 and shared as pre-signed URLs. Each PDF's images live in a unique folder under your configured prefix so parallel runs and repeated filenames do not overwrite each other.
+3. The plugin will return human-readable output plus structured JSON and a Markdown blob for downstream processing.
 
 ## Example Response
 
@@ -68,20 +68,20 @@ The plugin returns data in multiple formats:
    }
    ```
 3. **Blob Message**: Raw text content with MIME type specification
-4. **Files Output**: When **Save extracted images** is enabled, extracted page images are returned as downloadable file outputs.
+4. **Images in S3**: Extracted images are uploaded to your configured S3 bucket. JSON includes their keys and pre-signed URLs so downstream workflow nodes can fetch them during the URL lifetime. Objects persist in S3 until you clean them up.
 
 ## Actions
 
-- **Convert PDF to Markdown** (`to_markdown`): Converts uploaded PDFs to Markdown, extracting both text and embedded images. Set **Save extracted images** to `true` to include the page images in the `files` output while keeping the generated Markdown in the text response.
+- **Convert PDF to Markdown** (`to_markdown`): Converts uploaded PDFs to Markdown, extracting both text and embedded images. Images are uploaded to S3 under the provided bucket/prefix in unique per-file folders, and pre-signed URLs are returned alongside the Markdown so later workflow steps can reuse them without collision.
 
 ## Privacy Policy
 
-This plugin does not collect, store, or transmit any user data beyond what is necessary for processing the provided PDF files. All processing is done within the plugin execution environment, and no data is retained after processing completes.
+The plugin processes PDFs within the execution environment and uploads extracted images to the S3 bucket you configure. Objects remain in your bucket until you remove them; pre-signed URLs expire based on the configured lifetime.
 
-- No user information is collected
-- No PDF content is stored after processing
-- No data is sent to external services
-- All processing happens within the Dify environment
+- No user information is collected beyond the content you upload
+- Extracted images are stored in your S3 bucket under the configured prefix
+- Markdown remains in-memory except for the optional blob response
+- Pre-signed URLs expire automatically, but the underlying S3 objects persist until you delete them
 
 ## License
 

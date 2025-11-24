@@ -1,11 +1,13 @@
 import io
 import logging
 import tempfile
-import zipfile
 from collections.abc import Generator
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
+import boto3
 import fitz
 import pymupdf4llm
 from dify_plugin import Tool
@@ -22,6 +24,24 @@ class MarkdownToolParameters(BaseModel):
         default=False,
         description="Generate markdown per page with separators when true.",
     )
+    s3_bucket: str = Field(
+        description="S3 bucket name where extracted images will be uploaded.",
+    )
+    s3_prefix: str = Field(
+        default="pymupdf-extracts",
+        description="Prefix to use for uploaded images in the S3 bucket.",
+    )
+    presigned_url_expiration: int = Field(
+        default=3600,
+        description=(
+            "Expiration time in seconds for the generated pre-signed URLs. "
+            "Objects remain in S3 until manually removed."
+        ),
+    )
+    aws_region: str | None = Field(
+        default=None,
+        description="AWS region for the S3 bucket. Leave empty to use the default client region.",
+    )
 
 
 class ToMarkdownTool(Tool):
@@ -36,6 +56,7 @@ class ToMarkdownTool(Tool):
 
         params = MarkdownToolParameters(**tool_parameters)
         files = params.files
+        s3_client = boto3.client("s3", region_name=params.aws_region)
 
         with tempfile.TemporaryDirectory() as temp_dir:
             for file in files:
@@ -46,6 +67,7 @@ class ToMarkdownTool(Tool):
                     doc = fitz.open(stream=file_bytes, filetype="pdf")
 
                     safe_stem = Path(file.filename).stem or "document"
+                    file_namespace = uuid4().hex
                     image_root = Path(temp_dir) / safe_stem
                     image_root.mkdir(parents=True, exist_ok=True)
 
@@ -75,7 +97,44 @@ class ToMarkdownTool(Tool):
                         doc.close()
 
                     image_files = sorted(image_root.rglob("*"))
-                    image_relpaths = [str(path.relative_to(temp_dir)) for path in image_files if path.is_file()]
+
+                    images_metadata: list[dict[str, str]] = []
+                    for image_path in image_files:
+                        if not image_path.is_file():
+                            continue
+
+                        relative_key = str(image_path.relative_to(image_root)).replace("\\", "/")
+                        prefix = params.s3_prefix.strip("/")
+                        s3_key = "/".join(
+                            part
+                            for part in [
+                                prefix,
+                                safe_stem,
+                                file_namespace,
+                                relative_key,
+                            ]
+                            if part
+                        )
+
+                        s3_client.upload_file(str(image_path), params.s3_bucket, s3_key)
+
+                        expires_at = datetime.now(timezone.utc) + timedelta(
+                            seconds=params.presigned_url_expiration
+                        )
+                        presigned_url = s3_client.generate_presigned_url(
+                            "get_object",
+                            Params={"Bucket": params.s3_bucket, "Key": s3_key},
+                            ExpiresIn=params.presigned_url_expiration,
+                        )
+
+                        images_metadata.append(
+                            {
+                                "s3_bucket": params.s3_bucket,
+                                "s3_key": s3_key,
+                                "url": presigned_url,
+                                "expires_at": expires_at.isoformat(),
+                            }
+                        )
 
                     yield self.create_text_message(markdown_output)
 
@@ -84,7 +143,7 @@ class ToMarkdownTool(Tool):
                             file.filename: {
                                 "markdown": markdown_output,
                                 "paginated": params.paginate,
-                                "image_files": image_relpaths,
+                                "images": images_metadata,
                             }
                         }
                     )
@@ -96,23 +155,6 @@ class ToMarkdownTool(Tool):
                             "file_name": f"{safe_stem}.md",
                         },
                     )
-
-                    if image_relpaths:
-                        zip_buffer = io.BytesIO()
-                        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-                            for image_path in image_files:
-                                if image_path.is_file():
-                                    archive_name = str(image_path.relative_to(temp_dir))
-                                    zip_file.write(image_path, arcname=archive_name)
-                        zip_buffer.seek(0)
-
-                        yield self.create_blob_message(
-                            zip_buffer.read(),
-                            meta={
-                                "mime_type": "application/zip",
-                                "file_name": f"{safe_stem}_images.zip",
-                            },
-                        )
 
                 except Exception as exc:  # pylint: disable=broad-except
                     error_msg = f"Error processing {file.filename}: {exc}"
