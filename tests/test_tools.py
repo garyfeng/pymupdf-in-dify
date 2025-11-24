@@ -1,9 +1,15 @@
 from pathlib import Path
 import sys
+import types
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))
+
+# Provide a lightweight boto3 stub so imports succeed even when the dependency is
+# not preinstalled. Tests monkeypatch the required functions on this stub.
+if "boto3" not in sys.modules:
+    sys.modules["boto3"] = types.SimpleNamespace(client=None)
 from typing import Any
 
 import fitz
